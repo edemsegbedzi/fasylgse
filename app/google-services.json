@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "81400742821",
+    "firebase_url": "https://fasylgse.firebaseio.com",
+    "project_id": "fasylgse",
+    "storage_bucket": "fasylgse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81400742821:android:5e64057eb10f8098",
+        "android_client_info": {
+          "package_name": "com.fasylgh.fasylgse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81400742821-ol3v92q1mmnklvo4mrn8iq1nbvl1i3bl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fasylgh.fasylgse",
+            "certificate_hash": "ea10529010de041e145244a64c33096fb2555a18"
+          }
+        },
+        {
+          "client_id": "81400742821-gle7b8554j0793cva4ch2vuf0l53jata.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzofiO0UjZ011regrzNT5s9023PylyPQE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81400742821-gle7b8554j0793cva4ch2vuf0l53jata.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
