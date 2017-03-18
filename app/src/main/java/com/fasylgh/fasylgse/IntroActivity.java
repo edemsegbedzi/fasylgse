@@ -42,7 +42,7 @@ public class IntroActivity extends AppCompatActivity {
                     window.setStatusBarColor(elements.get(newElementIndex).getBgColor());
 
                 }
-                git push -u origin master
+
             }
         });
 

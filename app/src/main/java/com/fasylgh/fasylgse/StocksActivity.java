@@ -155,6 +155,8 @@ public class StocksActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(this,HistoryPrice.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
 

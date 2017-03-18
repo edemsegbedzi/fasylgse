@@ -25,18 +25,23 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class HistoryPrice extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class HistoryPrice extends AppCompatActivity {
 
-    int year_rangeF, year_rangeT;
-    int month_rangeF, month_rangeT;
-    int day_rangeF, day_rangeT;
-    int hour_rangeF, hour_rangeT;
-    int minute_rangeF, minute_rangeT;
+    private int year_rangeF, year_rangeT;
+    private int month_rangeF, month_rangeT;
+    private int day_rangeF, day_rangeT;
+    private int hour_rangeF, hour_rangeT;
+    private int minute_rangeF, minute_rangeT;
+    private String company_name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_price);
+
+//        company_name = getIntent().getStringExtra("CNAME");
+
 
         Button btnFrom = (Button)findViewById(R.id.btnFrom);
         Button btnTo = (Button)findViewById(R.id.btnTo);
@@ -49,11 +54,24 @@ public class HistoryPrice extends AppCompatActivity implements DatePickerDialog.
                 Calendar now = Calendar.getInstance();
 
                 //Pick date from dialog
-                DatePickerDialog dpd = new DatePickerDialog(HistoryPrice.this, HistoryPrice.this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog dpd = new DatePickerDialog(HistoryPrice.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                      year_rangeF = year;
+                        month_rangeF = month;
+                        day_rangeF = dayOfMonth;
+                    }
+                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
 
                 //Pick time from dialog
-                TimePickerDialog obj_tpd = new TimePickerDialog(HistoryPrice.this, HistoryPrice.this, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
+                TimePickerDialog obj_tpd = new TimePickerDialog(HistoryPrice.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        hour_rangeF = hourOfDay;
+                        minute_rangeF = minute;
+                    }
+                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
                 obj_tpd.show();
             }
         });
@@ -65,11 +83,24 @@ public class HistoryPrice extends AppCompatActivity implements DatePickerDialog.
                 Calendar now = Calendar.getInstance();
 
                 //Pick date from dialog
-                DatePickerDialog dpd = new DatePickerDialog(HistoryPrice.this, HistoryPrice.this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+                        DatePickerDialog dpd = new DatePickerDialog(HistoryPrice.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                day_rangeT = dayOfMonth;
+                                year_rangeT = year;
+                                month_rangeT = month;
+                            }
+                        }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
 
                 //Pick time from dialog
-                TimePickerDialog obj_tpd = new TimePickerDialog(HistoryPrice.this, HistoryPrice.this, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
+                TimePickerDialog obj_tpd = new TimePickerDialog(HistoryPrice.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        hour_rangeT = hourOfDay;
+                        minute_rangeT = minute;
+                    }
+                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
                 obj_tpd.show();
             }
         });
@@ -81,7 +112,7 @@ public class HistoryPrice extends AppCompatActivity implements DatePickerDialog.
                     Toast.makeText(HistoryPrice.this, "Please select a from and to date range", Toast.LENGTH_LONG).show();
 
                 else{
-//                    fetchDataFromDatabase(year_rangeF, year_rangeT, month_rangeF, month_rangeT, day_rangeF, day_rangeT, hour_rangeF, hour_rangeT, minute_rangeF, minute_rangeT);
+                    fetchDataFromDatabase(year_rangeF, year_rangeT, month_rangeF, month_rangeT, day_rangeF, day_rangeT, hour_rangeF, hour_rangeT, minute_rangeF, minute_rangeT);
                 }
             }
         });
@@ -89,22 +120,21 @@ public class HistoryPrice extends AppCompatActivity implements DatePickerDialog.
 
 
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+    private void fetchDataFromDatabase(int yR, int yT, int moF, int moT, int dF, int dT, int hF, int hT, int mF, int mT){
 
+        double[] price = {7.2, 4.2, 0, 3.9, 8.9, 1.2, 5.6, 2.3, 5.3, 2.3, 9.2, 10.2};
+        String[] date = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        ArrayList<Double> price_arr = new ArrayList<Double>();
+        ArrayList<String> date_arr = new ArrayList<String>();
+
+        for(double p: price)
+            price_arr.add(p);
+
+        for(String d: date)
+            date_arr.add(d);
+
+        drawHistoryChart(price_arr, date_arr);
     }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-    }
-
-//    private void fetchDataFromDatabase(int yR, int yT, int moF, int moT, int dF, int dT, int hF, int hT, int mF, int mT){
-//
-//
-//
-//        drawHistoryChart(ArrayList<Double> price, ArrayList<String> date);
-//    }
 
     private void drawHistoryChart(ArrayList<Double> var_array_price, ArrayList<String> var_array_date){
         //Create XYSeries for Price
